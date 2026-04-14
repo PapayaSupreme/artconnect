@@ -124,23 +124,23 @@ INSERT INTO workshops (id, title, workshop_date, duration_minutes, max_participa
     (3, 'Generative Light Coding', TIMESTAMP '2025-07-20 16:00:00', 210, 20, 85.00, 3, 'Harbor Lens Media Room', 'Build reactive visuals from live audio streams.', 'advanced'),
     (4, 'Ceramic Seed Forms', TIMESTAMP '2025-09-07 11:00:00', 150, 14, 55.00, 5, 'Delta Clay Lab', 'Hand-building organic modules and glazing basics.', 'beginner');
 
-INSERT INTO bookings (id, workshop_id, member_id, booking_date, payment_status) VALUES
-    (1, 1, 1, TIMESTAMP '2025-04-01 09:15:00', 'PAID'),
-    (2, 1, 4, TIMESTAMP '2025-04-02 13:40:00', 'PENDING'),
-    (3, 2, 2, TIMESTAMP '2025-05-01 10:05:00', 'PAID'),
-    (4, 2, 5, TIMESTAMP '2025-05-03 16:25:00', 'CANCELLED'),
-    (5, 3, 3, TIMESTAMP '2025-06-20 08:50:00', 'PAID'),
-    (6, 3, 1, TIMESTAMP '2025-06-22 12:00:00', 'PENDING'),
-    (7, 4, 5, TIMESTAMP '2025-08-25 17:45:00', 'PAID'),
-    (8, 4, 2, TIMESTAMP '2025-08-29 11:10:00', 'PAID');
+INSERT INTO bookings (workshop_id, member_id, booking_date, payment_status) VALUES
+    (1, 1, TIMESTAMP '2025-04-01 09:15:00', 'PAID'),
+    (1, 4, TIMESTAMP '2025-04-02 13:40:00', 'PENDING'),
+    (2, 2, TIMESTAMP '2025-05-01 10:05:00', 'PAID'),
+    (2, 5, TIMESTAMP '2025-05-03 16:25:00', 'CANCELLED'),
+    (3, 3, TIMESTAMP '2025-06-20 08:50:00', 'PAID'),
+    (3, 1, TIMESTAMP '2025-06-22 12:00:00', 'PENDING'),
+    (4, 5, TIMESTAMP '2025-08-25 17:45:00', 'PAID'),
+    (4, 2, TIMESTAMP '2025-08-29 11:10:00', 'PAID');
 
-INSERT INTO reviews (id, reviewer_member_id, artwork_id, rating, comment, review_date) VALUES
-    (1, 1, 3, 5, 'Immersive and technically brilliant.', DATE '2025-07-22'),
-    (2, 2, 2, 4, 'Strong concept and impressive scale.', DATE '2025-06-01'),
-    (3, 3, 4, 5, 'Emotionally rich portrait series.', DATE '2025-08-01'),
-    (4, 4, 1, 4, 'Loved the layered textures and story.', DATE '2025-04-15'),
-    (5, 5, 5, 5, 'Beautiful craftsmanship and glaze work.', DATE '2025-09-20'),
-    (6, 2, 6, 3, 'Atmospheric piece, though less striking in person.', DATE '2025-04-18');
+INSERT INTO reviews (reviewer_member_id, artwork_id, rating, comment, review_date) VALUES
+    (1, 3, 5, 'Immersive and technically brilliant.', DATE '2025-07-22'),
+    (2, 2, 4, 'Strong concept and impressive scale.', DATE '2025-06-01'),
+    (3, 4, 5, 'Emotionally rich portrait series.', DATE '2025-08-01'),
+    (4, 1, 4, 'Loved the layered textures and story.', DATE '2025-04-15'),
+    (5, 5, 5, 'Beautiful craftsmanship and glaze work.', DATE '2025-09-20'),
+    (2, 6, 3, 'Atmospheric piece, though less striking in person.', DATE '2025-04-18');
 
 COMMIT;
 
