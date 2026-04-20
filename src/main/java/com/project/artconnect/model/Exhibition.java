@@ -1,17 +1,55 @@
 package com.project.artconnect.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "exhibitions")
 public class Exhibition {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "title", nullable = false, unique = true, length = 180)
     private String title;
+
+    @Column(name = "start_date")
     private LocalDate startDate;
+
+    @Column(name = "end_date")
     private LocalDate endDate;
+
+    @Column(name = "description")
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "gallery_id")
     private Gallery gallery;
+
+    @Column(name = "curator_name", length = 150)
     private String curatorName;
+
+    @Column(name = "theme", length = 120)
     private String theme;
+
+    @ManyToMany
+    @JoinTable(
+            name = "exhibition_artworks",
+            joinColumns = @JoinColumn(name = "exhibition_id"),
+            inverseJoinColumns = @JoinColumn(name = "artwork_id")
+    )
     private List<Artwork> artworks = new ArrayList<>();
 
     public Exhibition() {
@@ -22,6 +60,14 @@ public class Exhibition {
         this.startDate = startDate;
         this.endDate = endDate;
         this.gallery = gallery;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

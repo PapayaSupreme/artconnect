@@ -1,17 +1,56 @@
 package com.project.artconnect.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "community_members")
 public class CommunityMember {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name", nullable = false, length = 150)
     private String name;
+
+    @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
+
+    @Column(name = "birth_year")
     private Integer birthYear;
+
+    @Column(name = "phone", length = 50)
     private String phone;
+
+    @Column(name = "city", length = 120)
     private String city;
+
+    @ManyToMany
+    @JoinTable(
+            name = "member_favorite_disciplines",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "discipline_id")
+    )
     private List<Discipline> favoriteDisciplines = new ArrayList<>();
+
+    @Column(name = "membership_type", length = 20)
     private String membershipType; // free, premium
+
+    @OneToMany(mappedBy = "member")
     private List<Booking> bookings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reviewer")
     private List<Review> reviews = new ArrayList<>();
 
     public CommunityMember() {
@@ -20,6 +59,14 @@ public class CommunityMember {
     public CommunityMember(String name, String email) {
         this.name = name;
         this.email = email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

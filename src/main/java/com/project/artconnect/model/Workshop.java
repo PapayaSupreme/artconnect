@@ -1,17 +1,56 @@
 package com.project.artconnect.model;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "workshops")
 public class Workshop {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "title", nullable = false, length = 180)
     private String title;
+
+    @Column(name = "workshop_date", nullable = false)
     private LocalDateTime date;
-    private int durationMinutes;
-    private int maxParticipants;
+
+    @Column(name = "duration_minutes")
+    private Integer durationMinutes;
+
+    @Column(name = "max_participants")
+    private Integer maxParticipants;
+
+    @Column(name = "price", nullable = false)
     private double price;
+
+    @ManyToOne
+    @JoinColumn(name = "instructor_id")
     private Artist instructor;
+
+    @Column(name = "location", length = 180)
     private String location;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "level", length = 20)
     private String level; // beginner, intermediate, advanced
+
+    @OneToMany(mappedBy = "workshop")
+    private List<Booking> bookings = new ArrayList<>();
 
     public Workshop() {
     }
@@ -21,6 +60,14 @@ public class Workshop {
         this.date = date;
         this.instructor = instructor;
         this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -39,19 +86,19 @@ public class Workshop {
         this.date = date;
     }
 
-    public int getDurationMinutes() {
+    public Integer getDurationMinutes() {
         return durationMinutes;
     }
 
-    public void setDurationMinutes(int durationMinutes) {
+    public void setDurationMinutes(Integer durationMinutes) {
         this.durationMinutes = durationMinutes;
     }
 
-    public int getMaxParticipants() {
+    public Integer getMaxParticipants() {
         return maxParticipants;
     }
 
-    public void setMaxParticipants(int maxParticipants) {
+    public void setMaxParticipants(Integer maxParticipants) {
         this.maxParticipants = maxParticipants;
     }
 
@@ -93,6 +140,14 @@ public class Workshop {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 
     @Override

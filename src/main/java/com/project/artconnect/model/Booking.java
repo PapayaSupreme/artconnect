@@ -1,11 +1,35 @@
 package com.project.artconnect.model;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+@Entity
+@Table(name = "bookings")
+@IdClass(Booking.BookingId.class)
 public class Booking {
+    @Id
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "workshop_id", nullable = false)
     private Workshop workshop;
+
+    @Id
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private CommunityMember member;
+
+    @Column(name = "booking_date", nullable = false)
     private LocalDateTime bookingDate;
+
+    @Column(name = "payment_status", nullable = false, length = 20)
     private String paymentStatus; // PENDING, PAID, CANCELLED
 
     public Booking() {
@@ -48,5 +72,51 @@ public class Booking {
 
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public static class BookingId implements Serializable {
+        private Long workshop;
+        private Long member;
+
+        public BookingId() {
+        }
+
+        public BookingId(Long workshop, Long member) {
+            this.workshop = workshop;
+            this.member = member;
+        }
+
+        public Long getWorkshop() {
+            return workshop;
+        }
+
+        public void setWorkshop(Long workshop) {
+            this.workshop = workshop;
+        }
+
+        public Long getMember() {
+            return member;
+        }
+
+        public void setMember(Long member) {
+            this.member = member;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof BookingId)) {
+                return false;
+            }
+            BookingId that = (BookingId) o;
+            return Objects.equals(workshop, that.workshop) && Objects.equals(member, that.member);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(workshop, member);
+        }
     }
 }

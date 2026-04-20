@@ -1,16 +1,45 @@
 package com.project.artconnect.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "galleries")
 public class Gallery {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name", nullable = false, unique = true, length = 180)
     private String name;
+
+    @Column(name = "address", length = 255)
     private String address;
+
+    @Column(name = "owner_name", length = 150)
     private String ownerName;
+
+    @Column(name = "opening_hours", length = 120)
     private String openingHours;
+
+    @Column(name = "contact_phone", length = 50)
     private String contactPhone;
+
+    @Column(name = "rating", nullable = false)
     private double rating;
+
+    @Column(name = "website", length = 255)
     private String website;
+
+    @OneToMany(mappedBy = "gallery")
     private List<Exhibition> exhibitions = new ArrayList<>();
 
     public Gallery() {
@@ -20,6 +49,14 @@ public class Gallery {
         this.name = name;
         this.address = address;
         this.rating = rating;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

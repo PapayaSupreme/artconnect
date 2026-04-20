@@ -1,23 +1,69 @@
 package com.project.artconnect.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Artist entity representing a creator in the community.
  */
+@Entity
+@Table(name = "artists")
 public class Artist {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name", nullable = false, unique = true, length = 150)
     private String name;
+
+    @Column(name = "bio")
     private String bio;
+
+    @Column(name = "birth_year")
     private Integer birthYear;
+
+    @ManyToMany
+    @JoinTable(
+            name = "artist_disciplines",
+            joinColumns = @JoinColumn(name = "artist_id"),
+            inverseJoinColumns = @JoinColumn(name = "discipline_id")
+    )
     private List<Discipline> disciplines = new ArrayList<>();
+
+    @Column(name = "contact_email", unique = true, length = 255)
     private String contactEmail;
+
+    @Column(name = "phone", length = 50)
     private String phone;
+
+    @Column(name = "city", length = 120)
     private String city;
+
+    @Column(name = "website", length = 255)
     private String website;
+
+    @Column(name = "social_media", length = 255)
     private String socialMedia;
+
+    @Column(name = "is_active", nullable = false)
     private boolean isActive;
+
+    @OneToMany(mappedBy = "artist")
     private List<Artwork> artworks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "instructor")
+    private List<Workshop> workshops = new ArrayList<>();
 
     public Artist() {
     }
@@ -32,6 +78,14 @@ public class Artist {
     }
 
     // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -118,6 +172,14 @@ public class Artist {
 
     public void setArtworks(List<Artwork> artworks) {
         this.artworks = artworks;
+    }
+
+    public List<Workshop> getWorkshops() {
+        return workshops;
+    }
+
+    public void setWorkshops(List<Workshop> workshops) {
+        this.workshops = workshops;
     }
 
     public void addArtwork(Artwork artwork) {
